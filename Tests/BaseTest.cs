@@ -25,7 +25,9 @@ namespace WinAppTest.Tests
             appiumService = new AppiumServiceBuilder().UsingPort(4723).WithLogFile(new FileInfo(GetLogFile())).Build();
             appiumService.Start();
 
-            options.AddAdditionalCapability("app", @"Microsoft.WindowsCalculator_8wekyb3d8bbwe!App");
+           // options.AddAdditionalCapability("app", @"Microsoft.WindowsCalculator_8wekyb3d8bbwe!App");
+            options.AddAdditionalCapability("app", @"Microsoft.WindowsAlarms_8wekyb3d8bbwe!App");
+            options.AddAdditionalCapability("forceMjsonwp", "True");
 
             driver = new WindowsDriver<WindowsElement>(appiumService, options);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);

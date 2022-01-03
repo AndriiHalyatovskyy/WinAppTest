@@ -2,29 +2,40 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
+using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using System;
 using WinAppTest.Pages.Calc;
+using WinAppTest.Pages.Clock;
 
 namespace WinAppTest.Pages
 {
     public class Page
     {
         private const int DEFAULT_WAIT = 20;
+        private Actions actions;
         public WindowsDriver<WindowsElement> driver;
         public WebDriverWait Wait;
 
         private CalcPage calcPage;
+        private ClockPage clockPage;
 
         public Page(WindowsDriver<WindowsElement> driver)
         {
             this.driver = driver;
             Wait = new WebDriverWait(driver, TimeSpan.FromSeconds(DEFAULT_WAIT));
+            actions = new Actions(this.driver);
         }
 
         public CalcPage CalcPage
         {
             get { return calcPage ?? (calcPage = new CalcPage(this)); }
+        }        
+        
+        public ClockPage ClockPage
+        {
+            get { return clockPage ?? (clockPage = new ClockPage(this)); }
         }
 
         /// <summary>
@@ -155,6 +166,20 @@ namespace WinAppTest.Pages
         public string GetText(By element)
         {
             return driver.FindElement(element).Text;
+        }
+
+        /// <summary>
+        /// Right click on element
+        /// </summary>
+        /// <param name="element"></param>
+        public void RightClickOnElement(By element)
+        {
+            WaitForVisible(element);
+            actions.MoveToElement(driver.FindElement(element))
+                .Click()
+                .ContextClick()
+                .Build()
+                .Perform();
         }
     }
 

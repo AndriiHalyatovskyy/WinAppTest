@@ -59,8 +59,7 @@ namespace WinAppTest.Pages.Calc
         public void SendKeysAndCalculate(string keys)
         {
             var keyArr = keys.Split(' ');
-            page.SendKeys(selectors.ResultField, keys);
-            page.SendKeys(selectors.ResultField, Keys.Enter);
+            SendKeysAndCalculate(keyArr);
         }
 
         /// <summary>
