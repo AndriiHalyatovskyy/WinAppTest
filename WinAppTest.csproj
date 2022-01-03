@@ -68,7 +68,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Pages\APage.cs" />
     <Compile Include="Pages\Calc\CalcPage.cs" />
     <Compile Include="Pages\Page.cs" />

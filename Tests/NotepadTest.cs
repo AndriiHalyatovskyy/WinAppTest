@@ -7,8 +7,12 @@ namespace WinAppTest.Tests
     {
 
         [Test]
-        public void NotepadFirstTest()
+        public void CalcFirstTest()
         {
+            Page.CalcPage.SendKeysAndCalculate("2", "+", "6");
+            var res = Page.CalcPage.GetCalculationResult();
+
+            Assert.AreEqual("Display is 8", res);
         }
     }
 }

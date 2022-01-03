@@ -4,6 +4,7 @@ using OpenQA.Selenium.Appium.Service;
 using OpenQA.Selenium.Appium.Windows;
 using System;
 using System.IO;
+using WinAppTest.Pages;
 
 namespace WinAppTest.Tests
 {
@@ -12,6 +13,10 @@ namespace WinAppTest.Tests
         private AppiumOptions options;
         private WindowsDriver<WindowsElement> driver;
         private AppiumLocalService appiumService;
+        private Page page;
+
+        protected Page Page => page ?? (page = new Page(
+               driver: driver));
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -23,6 +28,7 @@ namespace WinAppTest.Tests
             options.AddAdditionalCapability("app", @"Microsoft.WindowsCalculator_8wekyb3d8bbwe!App");
 
             driver = new WindowsDriver<WindowsElement>(appiumService, options);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
         }
 
         [OneTimeTearDown]
