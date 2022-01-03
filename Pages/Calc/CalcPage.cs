@@ -53,6 +53,17 @@ namespace WinAppTest.Pages.Calc
         }
 
         /// <summary>
+        /// Sends array of keys to app. Keys should be separated by whitespace
+        /// </summary>
+        /// <param name="keys"></param>
+        public void SendKeysAndCalculate(string keys)
+        {
+            var keyArr = keys.Split(' ');
+            page.SendKeys(selectors.ResultField, keys);
+            page.SendKeys(selectors.ResultField, Keys.Enter);
+        }
+
+        /// <summary>
         /// Returns result of calculation
         /// </summary>
         public string GetCalculationResult()

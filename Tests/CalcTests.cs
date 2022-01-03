@@ -3,7 +3,7 @@
 namespace WinAppTest.Tests
 {
     [TestFixture]
-    public class NotepadTest : BaseTest
+    public class CalcTests : BaseTest
     {
 
         [Test]
@@ -13,6 +13,14 @@ namespace WinAppTest.Tests
             var res = Page.CalcPage.GetCalculationResult();
 
             Assert.AreEqual("Display is 8", res);
+        }
+
+        [Test]
+        public void OtherTest()
+        {
+            Page.CalcPage.SendKeysAndCalculate("( 2 + 1 ) * 3");
+            var res = Page.CalcPage.GetCalculationResult();
+            Assert.AreEqual("Display is 9", res);
         }
     }
 }
