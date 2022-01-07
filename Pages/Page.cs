@@ -8,6 +8,7 @@ using OpenQA.Selenium.Support.UI;
 using System;
 using WinAppTest.Pages.Calc;
 using WinAppTest.Pages.Clock;
+using WinAppTest.Pages.CustomApp;
 
 namespace WinAppTest.Pages
 {
@@ -20,6 +21,7 @@ namespace WinAppTest.Pages
 
         private CalcPage calcPage;
         private ClockPage clockPage;
+        private CustomAppPage customAppPage;
 
         public Page(WindowsDriver<WindowsElement> driver)
         {
@@ -36,6 +38,11 @@ namespace WinAppTest.Pages
         public ClockPage ClockPage
         {
             get { return clockPage ?? (clockPage = new ClockPage(this)); }
+        }        
+        
+        public CustomAppPage CustomAppPage
+        {
+            get { return customAppPage ?? (customAppPage = new CustomAppPage(this)); }
         }
 
         /// <summary>

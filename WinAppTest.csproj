@@ -97,6 +97,7 @@
     <Compile Include="Pages\APage.cs" />
     <Compile Include="Pages\Calc\CalcPage.cs" />
     <Compile Include="Pages\Clock\ClockPage.cs" />
+    <Compile Include="Pages\CustomApp\CustomAppPage.cs" />
     <Compile Include="Pages\Page.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\BaseTest.cs" />
@@ -109,6 +110,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="TestData\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="APPs\DoNotDistrurbMortgageCalculatorFrom1999.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
