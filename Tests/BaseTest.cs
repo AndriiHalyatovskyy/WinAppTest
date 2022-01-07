@@ -27,9 +27,11 @@ namespace WinAppTest.Tests
             options2 = new AppiumOptions();
             appiumService = new AppiumServiceBuilder().UsingPort(4723).WithLogFile(new FileInfo(GetLogFile())).Build();
             appiumService.Start();
+            var mainFolder = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
 
-           // options.AddAdditionalCapability("app", @"Microsoft.WindowsCalculator_8wekyb3d8bbwe!App");
-            options.AddAdditionalCapability("app", @"Microsoft.WindowsAlarms_8wekyb3d8bbwe!App");
+            // options.AddAdditionalCapability("app", @"Microsoft.WindowsCalculator_8wekyb3d8bbwe!App"); //calc
+            //options.AddAdditionalCapability("app", @"Microsoft.WindowsAlarms_8wekyb3d8bbwe!App"); // clock
+            options.AddAdditionalCapability("app", Path.Combine(mainFolder, "APPs", "DoNotDistrurbMortgageCalculatorFrom1999.exe")); // Custom app
 
 
             options2.AddAdditionalCapability("app", @"Root");

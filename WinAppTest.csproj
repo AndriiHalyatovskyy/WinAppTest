@@ -103,6 +103,7 @@
     <Compile Include="Tests\BaseTest.cs" />
     <Compile Include="Tests\CalcTests.cs" />
     <Compile Include="Tests\ClockTests.cs" />
+    <Compile Include="Tests\CustomAppTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
