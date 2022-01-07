@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using WinAppTest.DTO;
 
 namespace WinAppTest.Tests
 {
@@ -10,6 +11,7 @@ namespace WinAppTest.Tests
         [OneTimeSetUp]
         public void OneTimeSetUpTest()
         {
+            ReadTestData<CityDTO>();
             Page.ClockPage.AddNewCity(cityName);
         }
 

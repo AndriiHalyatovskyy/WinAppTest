@@ -1,8 +1,10 @@
-﻿using NUnit.Framework;
+﻿using CsvHelper;
+using NUnit.Framework;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Service;
 using OpenQA.Selenium.Appium.Windows;
 using System;
+using System.Globalization;
 using System.IO;
 using WinAppTest.Pages;
 
@@ -63,6 +65,19 @@ namespace WinAppTest.Tests
             }
 
             return $"{folder}/TestLog.txt";
+        }
+
+        private protected void ReadTestData<T>()
+        {
+            using (var streamReader = new StreamReader(@"C:\WinAppTest\WinAppTest\TestData\Cities.xlsx"))
+            {
+                using (var csvReader = new CsvReader(streamReader, CultureInfo.InvariantCulture))
+                {
+                    csvReader.Read();
+                    var qq = csvReader.ReadHeader();
+                    var records = csvReader.GetRecords<T>();
+                }
+            }
         }
     }
 }
