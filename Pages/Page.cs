@@ -181,6 +181,47 @@ namespace WinAppTest.Pages
                 .Build()
                 .Perform();
         }
+
+        /// <summary>
+        /// Checks if element is visible
+        /// </summary>
+        /// <param name="by"></param>
+        public bool IsElementVisible(By by)
+        {
+            try
+            {
+                return driver.FindElement(by).Displayed;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+            catch (StaleElementReferenceException)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Checks if element is present
+        /// </summary>
+        /// <param name="by"></param>
+        public bool IsElementPresent(By by)
+        {
+            try
+            {
+                driver.FindElement(by);
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+            catch (NoSuchWindowException)
+            {
+                return false;
+            }
+        }
     }
 
     public enum ScrollOptions

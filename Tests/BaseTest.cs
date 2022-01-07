@@ -10,7 +10,7 @@ namespace WinAppTest.Tests
 {
     public abstract class BaseTest
     {
-        private AppiumOptions options;
+        private AppiumOptions options, options2;
         private WindowsDriver<WindowsElement> driver;
         private AppiumLocalService appiumService;
         private Page page;
@@ -22,14 +22,18 @@ namespace WinAppTest.Tests
         public void OneTimeSetUp()
         {
             options = new AppiumOptions();
+            options2 = new AppiumOptions();
             appiumService = new AppiumServiceBuilder().UsingPort(4723).WithLogFile(new FileInfo(GetLogFile())).Build();
             appiumService.Start();
 
            // options.AddAdditionalCapability("app", @"Microsoft.WindowsCalculator_8wekyb3d8bbwe!App");
             options.AddAdditionalCapability("app", @"Microsoft.WindowsAlarms_8wekyb3d8bbwe!App");
-            options.AddAdditionalCapability("forceMjsonwp", "True");
+
+
+            options2.AddAdditionalCapability("app", @"Root");
 
             driver = new WindowsDriver<WindowsElement>(appiumService, options);
+            //driver = new WindowsDriver<WindowsElement>(appiumService, options2);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
         }
 

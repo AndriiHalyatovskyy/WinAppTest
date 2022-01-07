@@ -50,6 +50,24 @@ namespace WinAppTest.Pages.Clock
         public void DeleteCity(string city)
         {
             page.RightClickOnElement(selectors.GetCityCart(city));
+            ClickDelete();
+        }
+
+        /// <summary>
+        /// Clicks on delete butoon
+        /// </summary>
+        public void ClickDelete()
+        {
+            page.Click(selectors.DeleteButton);
+        }
+
+        /// <summary>
+        /// Returns true if city present on the board
+        /// </summary>
+        /// <param name="cityName">City name</param>
+        public bool IsCityDisplayed(string cityName)
+        {
+            return page.IsElementPresent(selectors.GetCityCart(cityName)) && page.IsElementVisible(selectors.GetCityCart(cityName));
         }
     }
 
@@ -58,5 +76,6 @@ namespace WinAppTest.Pages.Clock
         public By GetCityCart(string city) => By.XPath($"//Group[contains(@Name, '{city}')]");
         public By AddNewCity = MobileBy.AccessibilityId("AddClockButton");
         public By AddNewCityInput = MobileBy.AccessibilityId("AddClockAutoSuggestBox");
+        public By DeleteButton = MobileBy.AccessibilityId("ContextMenuDelete");
     }
 }
