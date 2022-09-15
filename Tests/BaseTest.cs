@@ -1,12 +1,16 @@
 ﻿using CsvHelper;
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Service;
 using OpenQA.Selenium.Appium.Windows;
+using SharpAvi;
 using System;
 using System.Globalization;
 using System.IO;
 using WinAppTest.Pages;
+using WinAppTest.VideoRecorder;
 
 namespace WinAppTest.Tests
 {
@@ -16,6 +20,7 @@ namespace WinAppTest.Tests
         private WindowsDriver<WindowsElement> driver;
         private AppiumLocalService appiumService;
         private Page page;
+        private Recorder recorder;
 
         protected Page Page => page ?? (page = new Page(
                driver: driver));
@@ -28,6 +33,7 @@ namespace WinAppTest.Tests
             appiumService = new AppiumServiceBuilder().UsingPort(4723).WithLogFile(new FileInfo(GetLogFile())).Build();
             appiumService.Start();
             var mainFolder = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
+            SetUpRecorder();
 
             // options.AddAdditionalCapability("app", @"Microsoft.WindowsCalculator_8wekyb3d8bbwe!App"); //calc
             //options.AddAdditionalCapability("app", @"Microsoft.WindowsAlarms_8wekyb3d8bbwe!App"); // clock
@@ -54,18 +60,24 @@ namespace WinAppTest.Tests
             }
         }
 
+        [SetUp]
+        public void SetUpTestBase()
+        {
+            StartVideoRecording();
+        }
+
+        [TearDown]
+        public void TearDownTestBase()
+        {
+            EndTest();
+        }
+
         /// <summary>
         /// Returns full path to log file
         /// </summary>
         private string GetLogFile()
         {
-            var directory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent;
-            var folder = Path.Combine(directory.FullName, "Logs");
-            if (!Directory.Exists(folder))
-            {
-                Directory.CreateDirectory(folder);
-            }
-
+            var folder = CheckIfFolderExist("Logs");
             return $"{folder}/TestLog.txt";
         }
 
@@ -80,6 +92,50 @@ namespace WinAppTest.Tests
                     var records = csvReader.GetRecords<T>();
                 }
             }
+        }
+
+        private void EndTest()
+        {
+            StopVideoRecording();
+            if (TestContext.CurrentContext.Result.Outcome != ResultState.Success)
+            {
+                var folder = CheckIfFolderExist("ScreenShots");
+                var screenshot = ((ITakesScreenshot)driver).GetScreenshot();
+                screenshot.SaveAsFile(Path.Combine(folder, $"{TestContext.CurrentContext.Test.Name}_{DateTime.Now.ToString("dd.MM.yyyy")}.png"), ScreenshotImageFormat.Png);
+            }
+        }
+
+        private void StartVideoRecording()
+        {
+            recorder.StartRecording();
+        }
+
+        private void StopVideoRecording()
+        {
+            //var rawData = driver.StopRecordingScreen();
+            //byte[] decoded = Convert.FromBase64String(rawData);
+            //var folderPath = CheckIfFolderExist("Videos");
+            //var videoName = $"{TestContext.CurrentContext.Test.Name}_{DateTime.Now.ToString("dd.MM.yyyy")}_{DateTime.Now.Ticks}.mp4";
+            //File.WriteAllBytes(Path.Combine(folderPath, videoName), decoded);
+            recorder.Dispose();
+        }
+
+        private string CheckIfFolderExist(string folderName)
+        {
+            var directory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent;
+            var folder = Path.Combine(directory.FullName, folderName);
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+            return folder;
+        }
+
+        private void SetUpRecorder()
+        {
+            var folderPath = CheckIfFolderExist("Videos");
+            var videoName = $"{TestContext.CurrentContext.Test.Name}_{DateTime.Now.ToString("dd.MM.yyyy")}_{DateTime.Now.Ticks}.avi";
+            recorder = new Recorder(new RecorderParams(Path.Combine(folderPath, videoName), 30, CodecIds.MotionJpeg, 70));
         }
     }
 }
